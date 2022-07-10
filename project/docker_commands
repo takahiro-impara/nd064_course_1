@@ -1,11 +1,34 @@
 ## Docker commands used to build the application 
 # TODO: insert the docker build command
+docker build -t techtrends .
 
 ## Docker commands used to run the application
 # TODO: insert the docker run command
+docker run -it -p 7111:3111 techtrends
 
 ## Docker commands used to get the application logs
 # TODO: insert the docker logs command
+docker logs 1bf858e44178
 
 ## Logs from the container running the TechTrends application
-# TODO: paste logs from the Docker container 
+# TODO: paste logs from the Docker container
+```
+172.17.0.1 - - [10/Jul/2022 19:43:52] "GET / HTTP/1.1" 200 -
+172.17.0.1 - - [10/Jul/2022 19:43:52] "GET /static/css/main.css HTTP/1.1" 304 -
+172.17.0.1 - - [10/Jul/2022 19:43:52] "GET /favicon.ico HTTP/1.1" 200 -
+172.17.0.1 - - [10/Jul/2022 19:43:56] "GET /create HTTP/1.1" 200 -
+172.17.0.1 - - [10/Jul/2022 19:43:56] "GET /static/css/main.css HTTP/1.1" 304 -
+172.17.0.1 - - [10/Jul/2022 19:43:56] "GET /favicon.ico HTTP/1.1" 200 -
+INFO:app:2022-07-10 19:44:07,886, create new article title: test
+172.17.0.1 - - [10/Jul/2022 19:44:07] "POST /create HTTP/1.1" 302 -
+172.17.0.1 - - [10/Jul/2022 19:44:07] "GET / HTTP/1.1" 200 -
+172.17.0.1 - - [10/Jul/2022 19:44:07] "GET /static/css/main.css HTTP/1.1" 304 -
+172.17.0.1 - - [10/Jul/2022 19:44:07] "GET /favicon.ico HTTP/1.1" 200 -
+INFO:app:2022-07-10 19:44:14,656, Article test retrieved!
+172.17.0.1 - - [10/Jul/2022 19:44:14] "GET /7 HTTP/1.1" 200 -
+172.17.0.1 - - [10/Jul/2022 19:44:14] "GET /static/css/main.css HTTP/1.1" 304 -
+172.17.0.1 - - [10/Jul/2022 19:44:14] "GET /favicon.ico HTTP/1.1" 200 -
+INFO:app:2022-07-10 19:45:17,424, get all posts: 7
+172.17.0.1 - - [10/Jul/2022 19:45:17] "GET /metrics HTTP/1.1" 200 -
+172.17.0.1 - - [10/Jul/2022 19:45:17] "GET /favicon.ico HTTP/1.1" 200 -
+```

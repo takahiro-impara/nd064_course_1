@@ -97,9 +97,9 @@ def create():
                          (title, content))
             connection.commit()
             connection.close()
+            logger.info("create new article title: {}".format(title))
 
             return redirect(url_for('index'))
-    logger.info("create new article title: {}".format(title))
     return render_template('create.html')
 
 @app.errorhandler(404)
