@@ -1,14 +1,25 @@
+from asyncio.log import logger
 import sqlite3
+import logging
 
 from flask import Flask, jsonify, json, render_template, request, url_for, redirect, flash
 from werkzeug.exceptions import abort
 
 # Function to get a database connection.
 # This function connects to database with the name `database.db`
+db_connection_count = 0
 def get_db_connection():
+    global db_connection_count
     connection = sqlite3.connect('database.db')
     connection.row_factory = sqlite3.Row
+    db_connection_count += 1
     return connection
+
+def get_posts():
+    connection = get_db_connection()
+    posts = connection.execute('SELECT COUNT(id) FROM posts').fetchone()[0]
+    logger.info("get all posts: {}".format(posts))
+    return posts
 
 # Function to get a post using its ID
 def get_post(post_id):
@@ -28,6 +39,7 @@ def index():
     connection = get_db_connection()
     posts = connection.execute('SELECT * FROM posts').fetchall()
     connection.close()
+    logging.info("GET / HTTP/1.1")
     return render_template('index.html', posts=posts)
 
 # Define how each individual article is rendered 
@@ -40,12 +52,32 @@ def post(post_id):
     else:
       return render_template('post.html', post=post)
 
+# Define the healthz page
+@app.route('/healthz')
+def healthz():
+    response = app.response_class(
+            response=json.dumps({"result":"OK - healthy"}),
+            status=200,
+            mimetype='application/json'
+    )
+    return response
+
+# Define the metrics page
+@app.route('/metrics')
+def metrics():
+    response = app.response_class(
+            response=json.dumps({"db_connection_count": db_connection_count, "post_count": get_posts()}),
+            status=200,
+            mimetype='application/json'
+    )
+    return response
+
 # Define the About Us page
 @app.route('/about')
 def about():
     return render_template('about.html')
 
-# Define the post creation functionality 
+# Define the post creation functionality
 @app.route('/create', methods=('GET', 'POST'))
 def create():
     if request.method == 'POST':
@@ -67,4 +99,5 @@ def create():
 
 # start the application on port 3111
 if __name__ == "__main__":
-   app.run(host='0.0.0.0', port='3111')
+    logging.basicConfig(level=logging.DEBUG)
+    app.run(host='0.0.0.0', port='3111')
