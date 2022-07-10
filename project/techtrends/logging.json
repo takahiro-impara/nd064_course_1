@@ -1,0 +1,39 @@
+{
+  "version":1,
+  "disable_existing_loggers": false,
+  "formatters": {
+    "simple": {
+      "format": "%(asctime)s %(name)s:%(lineno)s %(funcName)s [%(levelname)s]: %(message)s"
+    },
+    "techtrend": {
+      "format": "%(levelname)s:%(name)s:%(asctime)s, %(message)s"
+    }
+  },
+
+  "handlers": {
+    "consoleHandler": {
+      "class": "logging.StreamHandler",
+      "level": "DEBUG",
+      "formatter": "techtrend",
+      "stream": "ext://sys.stdout"
+    },
+
+    "fileHandler": {
+      "class": "logging.FileHandler",
+      "level": "DEBUG",
+      "formatter": "techtrend",
+      "filename": "app.log",
+      "encoding": "utf-8"
+    }
+  },
+
+  "loggers": {
+    "app": {
+      "level": "DEBUG",
+      "handlers": ["consoleHandler", "fileHandler"]
+    }
+  },
+  "root": {
+    "level": "ERROR"
+  }
+}
