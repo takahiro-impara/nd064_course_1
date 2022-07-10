@@ -6,7 +6,7 @@ name: Docker Build and Push
 # events but only for the master branch
 on:
   push:
-    branches: [ main ]
+    branches: [ main, main-project-1 ]
   pull_request:
     branches: [ main ]
 
