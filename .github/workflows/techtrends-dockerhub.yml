@@ -37,7 +37,7 @@ jobs:
       -
         name: Build and push
         uses: docker/build-push-action@v2
-        working-director: project/techtrends
+        working-directory: project/techtrends
         with:
           context: .
           file: Dockerfile
