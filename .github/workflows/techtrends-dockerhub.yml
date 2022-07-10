@@ -40,7 +40,7 @@ jobs:
         with:
           working-directory: ./project/techtrends
           context: .
-          file: Dockerfile
+          file: project/techtrends/Dockerfile
           platforms: linux/amd64
           push: true
           tags: ${{ secrets.DOCKERHUB_USERNAME }}/techtrends:latest
