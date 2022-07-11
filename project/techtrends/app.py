@@ -1,9 +1,13 @@
-from asyncio.log import logger
 import sqlite3
 from logging import getLogger, config
 import os
+import sys
 from flask import Flask, jsonify, json, render_template, request, url_for, redirect, flash
 from werkzeug.exceptions import abort
+
+
+stdout_fileno = sys.stdout
+stderr_fileno = sys.stderr
 
 db_connection_count = 0
 with open("logging.json") as f:
@@ -13,7 +17,9 @@ logger = getLogger(os.path.basename(__file__).replace(".py",""))
 
 def get_db_connection():
     global db_connection_count
-    connection = sqlite3.connect('database.db')
+    db_name = 'database.db'
+
+    connection = sqlite3.connect(db_name)
     connection.row_factory = sqlite3.Row
     db_connection_count += 1
     return connection
@@ -60,6 +66,7 @@ def post(post_id):
     post = get_post(post_id)
     title = post[2]
     logger.info("Article {} retrieved!".format(title))
+    stdout_fileno.write("Article {} retrieved!\n".format(title))
     if post is None:
         return render_template('404.html'), 404
     else:
@@ -96,7 +103,14 @@ def metrics():
 @app.route('/about')
 def about():
     logger.info("retrieved About Us page")
+    stdout_fileno.write("retrieved About Us page\n")
     return render_template('about.html')
+
+@app.errorhandler(404)
+def page_not_found(e):
+    logger.error("page not found: {}".format(e))
+    stderr_fileno.write("page not found: {}\n".format(e))
+    return render_template("404.html"), 404
 
 # Define the post creation functionality
 @app.route('/create', methods=('GET', 'POST'))
@@ -117,10 +131,6 @@ def create():
 
             return redirect(url_for('index'))
     return render_template('create.html')
-
-@app.errorhandler(404)
-def not_found(e):
-    return render_template("404.html")
 
 # start the application on port 3111
 if __name__ == "__main__":
