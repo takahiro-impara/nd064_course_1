@@ -3,6 +3,8 @@ namespace:
 service:
   port: 5111
 replicaCount: 3
+image:
+  tag: staging
 resources:
   requests:
     cpu: 300m
