@@ -5,6 +5,7 @@ service:
 replicaCount: 5
 image:
   pullPolicy: Always
+  tag: main
 resources:
   requests:
     cpu: 350m
