@@ -16,4 +16,8 @@ spec:
   - name: techtrends
     protocol: {{ .Values.service.protocol }}
     port: {{ .Values.service.port }}
+{{ if .Values.service.targetport }}
     targetPort: {{ .Values.service.targetport }}
+{{ else }}
+    targetPort: {{ .Values.service.port }}
+{{ end }}
