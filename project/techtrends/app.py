@@ -24,6 +24,15 @@ def get_posts():
     logger.info("get all posts: {}".format(posts))
     return posts
 
+def is_exist_table(table):
+    connection = get_db_connection()
+    table = connection.execute("SELECT COUNT(*) FROM sqlite_master WHERE TYPE='table' AND name='{}'"
+                                .format(table)).fetchone()[0]
+    if table > 0:
+        return True
+    else:
+        return False
+
 # Function to get a post using its ID
 def get_post(post_id):
     connection = get_db_connection()
@@ -52,13 +61,20 @@ def post(post_id):
     title = post[2]
     logger.info("Article {} retrieved!".format(title))
     if post is None:
-      return render_template('404.html'), 404
+        return render_template('404.html'), 404
     else:
-      return render_template('post.html', post=post)
+        return render_template('post.html', post=post)
 
 # Define the healthz page
 @app.route('/healthz')
 def healthz():
+    if not is_exist_table("posts"):
+        response = app.response_class(
+                response=json.dumps({"result":"ERROR - unhealthy"}),
+                status=500,
+                mimetype='application/json'
+        )
+        return response
     response = app.response_class(
             response=json.dumps({"result":"OK - healthy"}),
             status=200,
