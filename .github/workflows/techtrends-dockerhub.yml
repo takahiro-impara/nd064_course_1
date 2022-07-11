@@ -6,7 +6,7 @@ name: TechTrends - Package with Docker
 # events but only for the master branch
 on:
   push:
-    branches: [ main staging main-optional ]
+    branches: [ main ]
   pull_request:
     branches: [ main ]
 
