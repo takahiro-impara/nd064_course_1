@@ -5,12 +5,12 @@ metadata:
   namespace: {{ .Values.namespace.name }}
   labels:
     app: techtrends
-    tag: {{ .Values.image.tag }}
+    tag: flask
 spec:
   selector:
     matchLabels:
       app: techtrends
-      tag: {{ .Values.image.tag }}
+      tag: flask
   replicas: {{ .Values.replicaCount }}
   strategy:
     rollingUpdate:
@@ -21,7 +21,7 @@ spec:
     metadata:
       labels:
         app:  techtrends
-        tag: {{ .Values.image.tag }}
+        tag: flask
     spec:
       containers:
       - name:  techtrends
