@@ -4,7 +4,7 @@ service:
   port: 5111
 replicaCount: 3
 image:
-  tag: staging
+  tag: latest
 resources:
   requests:
     cpu: 300m
